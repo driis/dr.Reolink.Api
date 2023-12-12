@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dr.Reolink.Api", "dr.Reolink.Api\dr.Reolink.Api.csproj", "{647477DA-2691-470E-98A2-D50981F57CCB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dr.Reolink.Tests", "dr.Reolink.Tests\dr.Reolink.Tests.csproj", "{A05094F0-D65C-4FE2-986C-41726B0FA68F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{647477DA-2691-470E-98A2-D50981F57CCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{647477DA-2691-470E-98A2-D50981F57CCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{647477DA-2691-470E-98A2-D50981F57CCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A05094F0-D65C-4FE2-986C-41726B0FA68F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A05094F0-D65C-4FE2-986C-41726B0FA68F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A05094F0-D65C-4FE2-986C-41726B0FA68F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A05094F0-D65C-4FE2-986C-41726B0FA68F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

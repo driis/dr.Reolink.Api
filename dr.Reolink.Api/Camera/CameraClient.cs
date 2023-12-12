@@ -1,3 +1,5 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.Extensions.Options;
 
 namespace dr.Reolink.Api.Camera;
@@ -15,10 +17,11 @@ public class CameraClient
 
     public async Task<AuthenticationToken> Authenticate(CancellationToken ct)
     {
-        var cmd = Command.Create("Login", new ReoUser(0, _options.UserName, _options.Password));
+        var cmd = Command.Create("Login", new ReoUserWrapper(new (0, _options.UserName, _options.Password)));
         var response = await Send(cmd, ct);
-        var responseObj = await response.Content.ReadFromJsonAsync<ReoResponse<ReoToken>>(ct);
-        var token = responseObj?.Value.Token;
+        var responseStr = await response.Content.ReadAsStringAsync(ct);
+        var responseObj = JsonSerializer.Deserialize<ReoResponse<ReoTokenWrapper>[]>(responseStr, new JsonSerializerOptions{PropertyNamingPolicy = JsonNamingPolicy.CamelCase});
+        var token = responseObj?.FirstOrDefault()?.Value.Token;
         if (token == null || token.LeaseTime <= 0 || String.IsNullOrWhiteSpace(token.Name))
             throw new ApplicationException($"Invalid token from Camera API: {token}");
         return new AuthenticationToken(DateTimeOffset.Now.AddSeconds(token.LeaseTime), token.Name);
@@ -64,7 +67,17 @@ static class Command
 
 // Reolink Camera serializing types
 record ReoCommand<T>(string Cmd, T Param);
+
+record ReoUserWrapper(ReoUser User)
+{
+    [JsonPropertyName("User")] public ReoUser User { get; init; } = User;
+};
+
 record ReoUser(int Version, string UserName, string Password);
 record ReoResponse<T>(string Cmd, int Code, T Value);
-record ReoToken(ReoTokenValue Token);
+
+record ReoTokenWrapper(ReoTokenValue Token)
+{
+    [JsonPropertyName("Token")] public ReoTokenValue Token { get; init; } = Token;
+};
 record ReoTokenValue(int LeaseTime, string Name);
