@@ -5,7 +5,7 @@ public sealed class AuthenticationHelper
     private readonly Func<CancellationToken, Task<AuthenticationToken>> _authenticator;
     private static readonly AutoResetEvent AuthLock = new(true);
     
-    private AuthenticationToken? _token;
+    private static AuthenticationToken? _token;
     
     public AuthenticationHelper(Func<CancellationToken, Task<AuthenticationToken>> authenticator)
     {
